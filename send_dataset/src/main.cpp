@@ -147,7 +147,6 @@ int main(int argc,char **argv)
 			usleep((T-ttrack)*1e6);
 		
 		ros::spinOnce();
-		ROS_ERROR("send");
 	}
 
 

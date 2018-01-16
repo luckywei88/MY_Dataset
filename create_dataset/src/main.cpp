@@ -63,13 +63,14 @@ int main(int argc,char **argv)
 {
     ROS_ERROR("start");
     string dataset="lucky";
-    dir="/home/lucky/dataset/";
+    dir="/home/lucky/dataset/my_dataset/";
     ros::init(argc,argv,"dataset");
     ros::start();
     ros::NodeHandle nh;
     ros::NodeHandle n_private("~");
     n_private.param("dataset",dataset,dataset);
     dir=dir+dataset;
+    cout<<dir<<endl;
     string rgbdir,depdir;
     rgbdir=dir+"/rgb";
     depdir=dir+"/depth";
