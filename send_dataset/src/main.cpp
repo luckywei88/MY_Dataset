@@ -53,7 +53,7 @@ void Send_Image(cv::Mat &rgbm, cv::Mat &depm, double &timestamps)
 	cv_bridge::CvImage rgb,dep;
 	sensor_msgs::Image rgb_image,dep_image;
 
-	rgb.encoding=sensor_msgs::image_encodings::BGR8;
+	rgb.encoding=sensor_msgs::image_encodings::RGB8;
 	rgb.image=rgbm;
 	rgb.toImageMsg(rgb_image);
 
@@ -67,6 +67,8 @@ void Send_Image(cv::Mat &rgbm, cv::Mat &depm, double &timestamps)
 
 int main(int argc,char **argv)
 {
+	cout<<"start"<<endl;
+	int time=0;
 	string sequence="lucky";
 	string dataset="lucky";
 	string dir="/home/lucky/dataset/";
@@ -75,12 +77,14 @@ int main(int argc,char **argv)
 	ros::start();
 	ros::NodeHandle nh;
 	ros::NodeHandle n_private("~");
+	n_private.param("time",time,time);
 	n_private.param("dataset",dataset,dataset);
 	n_private.param("sequence",sequence,sequence);
 	rgbpub=nh.advertise<sensor_msgs::Image>("/rgb",1);
 	deppub=nh.advertise<sensor_msgs::Image>("/depth",1);
 	
 	dir=dir+dataset+"/"+sequence;
+	cout<<dir<<endl;
 	string rgbdir,depdir;
 	rgbdir=dir+"/rgb";
 	depdir=dir+"/depth";
@@ -145,7 +149,8 @@ int main(int argc,char **argv)
 
 		if(ttrack<T)
 			usleep((T-ttrack)*1e6);
-		
+		if(time!=0)
+			sleep(time);	
 		ros::spinOnce();
 	}
 
